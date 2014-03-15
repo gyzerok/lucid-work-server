@@ -3,13 +3,44 @@ var Session = require('../model/Session');
 
 module.exports = {
 
-    startAction: function(req, res) {
+    checkArguments: function(req, res, next) {
 
         var timestamp = req.query.time;
 
-        if (timestamp)
+        if (!timestamp)
         {
-            Session.start(timestamp, function(err) {
+            res.send(error.WRONG_ARGUMENT);
+
+            next();
+        }
+
+        return timestamp;
+    },
+
+    startAction: function(req, res, next) {
+
+        var timestamp = this.checkArguments(req, res, next);
+
+        Session.start(timestamp, function(err) {
+
+            if (err)
+            {
+                res.send(500);
+                console.log(err);
+            }
+            else
+                res.send(error.SUCCESS);
+        });
+    },
+
+    pauseAction: function(res, req, next) {
+
+        var timestamp = this.checkArguments(req, res, next);
+
+
+        Session.updateCurrent(function(err, session) {
+
+            session.pause(timestamp, function(err) {
 
                 if (err)
                 {
@@ -19,89 +50,45 @@ module.exports = {
                 else
                     res.send(error.SUCCESS);
             });
-        }
-        else
-        {
-            res.send(error.WRONG_ARGUMENT);
-        }
+        });
     },
 
-    pauseAction: function(res, req) {
+    unpauseAction: function(res, req, next) {
 
-        var timestamp = req.query.time;
+        var timestamp = this.checkArguments(req, res, next);
 
-        if (timestamp)
-        {
-            Session.updateCurrent(function(err, session) {
+        Session.updateCurrent(function(err, session) {
 
-                session.pause(timestamp, function(err) {
+            session.unpause(timestamp, function(err) {
 
-                    if (err)
-                    {
-                        res.send(500);
-                        console.log(err);
-                    }
-                    else
-                        res.send(error.SUCCESS);
-                });
+                if (err)
+                {
+                    res.send(500);
+                    console.log(err);
+                }
+                else
+                    res.send(error.SUCCESS);
             });
-        }
-        else
-        {
-            res.status(500).send(error.WRONG_ARGUMENT);
-        }
+        });
     },
 
-    unpauseAction: function(res, req) {
+    closeAction: function(req, res, next) {
 
-        var timestamp = req.query.time;
+        var timestamp = this.checkArguments(req, res, next);
 
-        if (timestamp)
-        {
-            Session.updateCurrent(function(err, session) {
+        Session.updateCurrent(function(err, session) {
 
-                session.unpause(timestamp, function(err) {
+            session.close(timestamp, function(err) {
 
-                    if (err)
-                    {
-                        res.send(500);
-                        console.log(err);
-                    }
-                    else
-                        res.send(error.SUCCESS);
-                });
+                if (err)
+                {
+                    res.send(500);
+                    console.log(err);
+                }
+                else
+                    res.send(error.SUCCESS);
             });
-        }
-        else
-        {
-            res.status(500).send(error.WRONG_ARGUMENT);
-        }
-    },
-
-    closeAction: function(req, res) {
-
-        var timestamp = req.query.time;
-
-        if (timestamp)
-        {
-            Session.updateCurrent(function(err, session) {
-
-                session.close(timestamp, function(err) {
-
-                    if (err)
-                    {
-                        res.send(500);
-                        console.log(err);
-                    }
-                    else
-                        res.send(error.SUCCESS);
-                });
-            });
-        }
-        else
-        {
-            res.status(500).send(error.WRONG_ARGUMENT);
-        }
+        });
     }
 
 }
