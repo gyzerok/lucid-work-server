@@ -22,4 +22,4 @@ app.get('/pause_session', SessionController.pauseAction);
 app.get('/unpause_session', SessionController.unpauseAction);
 app.get('/close_session', SessionController.closeAction);
 
-app.listen(3333);
+app.listen(8080);
