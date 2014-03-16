@@ -5,19 +5,19 @@ module.exports = {
 
     registerAction: function(req, res) {
 
-        var username = req.query.username;
+        var email = req.query.email;
         var password = req.query.password;
 
-        if (username && password)
+        if (email && password)
         {
-            User.create(username, password, function(err, user) {
+            User.create(email, password, function(err, user) {
 
                 if (err)
                 {
                     res.send(400, err);
                 }
                 else
-                    res.send({_id: user._id, username: user.username});
+                    res.send({_id: user._id, email: user.email});
             });
         }
         else
@@ -26,17 +26,14 @@ module.exports = {
         }
     },
 
-    loadUserAction: function (req, res, next) {
+    authAction: function (req, res, next) {
 
         var token = req.query.token;
-
-        console.log(token);
 
         if (token) {
 
             User.findOne({'token.code': token}, function(err, user) {
 
-                console.log(user);
                 if (user)
                 {
                     req.currentUser = user;
@@ -52,11 +49,11 @@ module.exports = {
 
     loginAction: function(req, res) {
 
-        var username = req.query.username;
+        var email = req.query.email;
         var password = req.query.password;
 
         if (username && password) {
-            User.findOne({username: username, password: password}, function(err, user) {
+            User.findOne({email: email, password: password}, function(err, user) {
 
                 if (user) {
 

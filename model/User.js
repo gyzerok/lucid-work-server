@@ -18,7 +18,7 @@ function generateToken() {
 }
 
 var userSchema = mongoose.Schema({
-    username: String,
+    email: String,
     password: String,
     token: {
         code: String,
@@ -71,16 +71,16 @@ userSchema.methods.getSessions = function(callback) {
     });
 }
 
-userSchema.statics.create = function(username, password, callback) {
+userSchema.statics.create = function(email, password, callback) {
 
     var User = mongoose.model('User', userSchema);
 
-    this.findOne({username: username}, function(err, user) {
+    this.findOne({email: email}, function(err, user) {
 
         if (!user) {
 
             var newUser = new User({
-                username: username,
+                email: email,
                 password: password,
                 token: generateToken(),
                 regitered_at: Date.now()

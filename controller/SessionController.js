@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var error = require('../error');
 var Session = require('../model/Session');
+var Image = require('../model/Image');
 
 module.exports = {
 
@@ -112,32 +113,32 @@ module.exports = {
     getAllAction: function(req, res) {
 
         var username = req.query.username;
-        var session = req.query.session_id;
 
-        if (username && session) {
-
-            User.findOne({username: username}, function(err, user) {
-
-                if (user) {
-
-                    user.getSessions(function(err, sessions) {
-
-                        if (err) {
-
-                            console.log(err);
-                            res.send(500);
-                        }
-                        else {
-                            res.send(sessions);
-                        }
-                    });
-                }
-                else
-                    res.send(404, error.USER_NOT_FOUND);
-            });
-        }
-        else
+        if (!username)
+        {
             req.send(400, error.WRONG_ARGUMENT);
+            return;
+        }
+
+        User.findOne({username: username}, function(err, user) {
+
+            if (user) {
+
+                user.getSessions(function(err, sessions) {
+
+                    if (err)
+                    {
+                        console.log(err);
+                        res.send(500);
+                    }
+                    else {
+                        res.send(sessions);
+                    }
+                });
+            }
+            else
+                res.send(404, error.USER_NOT_FOUND);
+        });
     },
 
     uploadAction: function(req, res) {
@@ -148,12 +149,17 @@ module.exports = {
 
             req.currentUser.getCurrentSession(function (err, session) {
 
-                if (err) res.send(500);
-                else {
+                if (err)
+                {
+                    console.log(err);
+                    res.send(500);
+                }
+                else
+                {
                     session.addImage(fs.readFileSync(tempPath), 'image/jpg', function(err, image) {
 
-                        if (image) {
-
+                        if (image)
+                        {
                             fs.unlink(tempPath);
 
                             res.send(error.SUCCESS);
@@ -163,5 +169,34 @@ module.exports = {
                 }
             });
         }
+    },
+
+    getImageAction: function(req, res) {
+
+        var image_id = req.param.get('id');
+
+        if (image_id)
+        {
+            Image.findById(image_id, function(err, image) {
+
+                if (err)
+                {
+                    console.log(err);
+                    res.send(500);
+                }
+                else
+                {
+                    if (image)
+                    {
+                        res.contentType(image.contentType);
+                        res.send(image.data);
+                    }
+                    else
+                        res.send(404);
+                }
+            });
+        }
+        else
+            res.send(400, error.WRONG_ARGUMENT);
     }
 }
