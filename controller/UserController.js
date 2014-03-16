@@ -32,7 +32,7 @@ module.exports = {
 
         if (token) {
 
-            User.findOne({token: {code: token}}, function(user) {
+            User.findOne({'token.code': token}, function(user) {
 
                 if (user)
                 {
