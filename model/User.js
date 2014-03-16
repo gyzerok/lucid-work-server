@@ -11,7 +11,7 @@ function generateToken() {
     var sha = crypto.createHash('sha512');
     sha.update(Date.now() + '' + Math.random());
 
-    var code = sha.digest('hex');
+    var code = sha.digest('hex').substring(0, 15);
     var expiresIn = new Date(Date.now() + tokenTime);
 
     return {code: code, expiresIn: expiresIn};

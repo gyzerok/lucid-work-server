@@ -30,10 +30,13 @@ module.exports = {
 
         var token = req.query.token;
 
+        console.log(token);
+
         if (token) {
 
-            User.findOne({'token.code': token}, function(user) {
+            User.findOne({'token.code': token}, function(err, user) {
 
+                console.log(user);
                 if (user)
                 {
                     req.currentUser = user;
