@@ -17,11 +17,12 @@ app.get('/', function(req, res){
 });
 
 app.get('/register', UserController.registerAction);
+app.get('/login', UserController.loginAction);
 
-app.get('/start_session', SessionController.startAction);
-app.get('/pause_session', SessionController.pauseAction);
-app.get('/unpause_session', SessionController.unpauseAction);
-app.get('/close_session', SessionController.closeAction);
+app.get('/start_session', UserController.loadUserAction, SessionController.startAction);
+app.get('/pause_session', UserController.loadUserAction, SessionController.pauseAction);
+app.get('/unpause_session', UserController.loadUserAction, SessionController.unpauseAction);
+app.get('/close_session', UserController.loadUserAction, SessionController.closeAction);
 //app.get('/add_image', SessionController.closeAction);
 
 app.listen(3333);

@@ -9,7 +9,7 @@ module.exports = {
 
         if (!timestamp)
         {
-            res.send(error.WRONG_ARGUMENT);
+            res.send(400, error.WRONG_ARGUMENT);
 
             return;
         }
@@ -37,7 +37,8 @@ module.exports = {
             return;
         }
 
-        Session.updateCurrent(function(err, session) {
+        var user = req.currentUser;
+        user.updateCurrentSession(function(err, session) {
 
             session.pause(timestamp, function(err) {
 
@@ -58,12 +59,13 @@ module.exports = {
 
         if (!timestamp)
         {
-            res.send(error.WRONG_ARGUMENT);
+            res.send(400, error.WRONG_ARGUMENT);
 
             return;
         }
 
-        Session.updateCurrent(function(err, session) {
+        var user = req.currentUser;
+        user.updateCurrentSession(function(err, session) {
 
             session.unpause(timestamp, function(err) {
 
@@ -84,12 +86,13 @@ module.exports = {
 
         if (!timestamp)
         {
-            res.send(error.WRONG_ARGUMENT);
+            res.send(400, error.WRONG_ARGUMENT);
 
             return;
         }
 
-        Session.updateCurrent(function(err, session) {
+        var user = req.currentUser;
+        user.updateCurrentSession(function(err, session) {
 
             session.close(timestamp, function(err) {
 
