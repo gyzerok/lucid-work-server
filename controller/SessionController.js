@@ -144,6 +144,7 @@ module.exports = {
 
     uploadAction: function(req, res) {
 
+        console.log(req.body);
         var tempPath = req.files.file.path;
 
         if (path.extname(req.files.file.name).toLowerCase() === 'jpg') {
@@ -157,10 +158,12 @@ module.exports = {
                 }
                 else
                 {
+                    console.log('add');
                     session.addImage(fs.readFileSync(tempPath), 'image/jpg', function(err, image) {
 
                         if (image)
                         {
+                            console.log('added');
                             fs.unlink(tempPath);
 
                             res.send(error.SUCCESS);
