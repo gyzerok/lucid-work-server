@@ -95,7 +95,6 @@ module.exports = {
         }
 
         var user = req.currentUser;
-        console.log(user.email);
         user.getCurrentSession(function(err, session) {
 
             session.close(timestamp, function(err) {

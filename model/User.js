@@ -57,10 +57,11 @@ userSchema.methods.getToken = function(callback) {
 
 userSchema.methods.getCurrentSession = function(callback) {
 
-    Session.findOne({user_id: this._id}).sort({_id: -1}).exec(function(err, session) {
+    Session.findOne({user_id: this._id}, function(err, session) {console.log(session)});
+    /*Session.findOne({user_id: this._id}).sort({_id: -1}).exec(function(err, session) {
 
         callback(err, session);
-    });
+    });*/
 }
 
 userSchema.methods.getSessions = function(callback) {
