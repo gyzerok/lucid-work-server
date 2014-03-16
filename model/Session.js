@@ -48,15 +48,5 @@ sessionSchema.methods.addImage = function(data, contentType, callback) {
     });
 }
 
-sessionSchema.statics.start = function(timestamp, callback) {
-
-    var Session = mongoose.model('Session', sessionSchema);
-
-    var session = new Session({startTime: timestamp});
-    session.save(function(err, session) {
-        callback(err, session);
-    });
-}
-
 module.exports = mongoose.model('Session', sessionSchema);
 
