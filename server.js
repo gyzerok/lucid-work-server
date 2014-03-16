@@ -25,8 +25,8 @@ app.get('/session/unpause', UserController.authAction, SessionController.unpause
 app.get('/session/close', UserController.authAction, SessionController.closeAction);
 app.get('/session/all', UserController.authAction, SessionController.getAllAction);
 app.get('/session/images/:id', UserController.authAction, SessionController.getImageAction);
-//app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
-app.post('/session/upload', function(req, res) {
+app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
+/*app.post('/session/upload', function(req, res) {
 
     var fs = require('fs');
     console.log("here");
@@ -34,6 +34,6 @@ app.post('/session/upload', function(req, res) {
 
     res.contentType('image/jpg');
     res.send(fs.readFileSync(tempPath));
-});
+});*/
 
 app.listen(3333);
