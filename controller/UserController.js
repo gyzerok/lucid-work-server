@@ -17,7 +17,7 @@ module.exports = {
                     res.send(400, err);
                 }
                 else
-                    res.send({id: user._id, username: user.username});
+                    res.send({_id: user._id, username: user.username});
             });
         }
         else
@@ -61,7 +61,7 @@ module.exports = {
                 if (user) {
 
                     res.send({
-                        id: user._id,
+                        _id: user._id,
                         token: {
                             code: user.token.code,
                             expires_in: user.token.expiresIn.getTime()

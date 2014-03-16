@@ -19,10 +19,13 @@ app.get('/', function(req, res){
 app.get('/register', UserController.registerAction);
 app.get('/login', UserController.loginAction);
 
-app.get('/start_session', UserController.loadUserAction, SessionController.startAction);
-app.get('/pause_session', UserController.loadUserAction, SessionController.pauseAction);
-app.get('/unpause_session', UserController.loadUserAction, SessionController.unpauseAction);
-app.get('/close_session', UserController.loadUserAction, SessionController.closeAction);
-//app.get('/add_image', SessionController.closeAction);
+app.get('/session/start', UserController.loadUserAction, SessionController.startAction);
+app.get('/session/pause', UserController.loadUserAction, SessionController.pauseAction);
+app.get('/session/unpause', UserController.loadUserAction, SessionController.unpauseAction);
+app.get('/session/close', UserController.loadUserAction, SessionController.closeAction);
+app.post('/session/upload', UserController.loadUserAction, SessionController.uploadAction);
+app.get('/session/all', UserController.loadUserAction, SessionController.getAllAction);
+
+app.get('/session/image', SessionController.closeAction);
 
 app.listen(3333);

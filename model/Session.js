@@ -32,9 +32,14 @@ sessionSchema.methods.close = function(timestamp, callback) {
     });
 }
 
-sessionSchema.methods.addImage = function(binary, timestamp, callback) {
+sessionSchema.methods.addImage = function(data, contentType, callback) {
 
-    var image = new Image({session_id: this._id, binary: binary, timestamp: timestamp});
+    var image = new Image({
+        session_id: this._id,
+        data: data,
+        contentType: contentType
+    });
+
     image.save(function(err, image) {
         callback(err, image);
     });

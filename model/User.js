@@ -55,11 +55,19 @@ userSchema.methods.getToken = function(callback) {
     });
 }
 
-userSchema.methods.updateCurrentSession = function(callback) {
+userSchema.methods.getCurrentSession = function(callback) {
 
     Session.findOne({user_id: this._id}).sort({_id: -1}).exec(function(err, session) {
 
         callback(err, session);
+    });
+}
+
+userSchema.methods.getSessions = function(callback) {
+
+    Session.find({user_id: this._id}, '_id, startTime, endTime', function(err, sessions) {
+
+        callback(err, sessions);
     });
 }
 
