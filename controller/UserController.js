@@ -60,6 +60,7 @@ module.exports = {
 
                 if (user) {
 
+                    res.contentType('json');
                     res.send({
                         id: user._id,
                         token: {
