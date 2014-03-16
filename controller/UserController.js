@@ -60,13 +60,13 @@ module.exports = {
 
                 if (user) {
 
-                    res.send(JSON.stringify({
+                    res.send({
                         id: user._id,
                         token: {
                             code: user.token.code,
                             expires_in: user.token.expiresIn.getTime()
                         }
-                    }));
+                    });
                 }
                 else {
                     res.send(404, error.USER_NOT_FOUND);
