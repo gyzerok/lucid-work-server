@@ -28,6 +28,7 @@ app.get('/session/images/:id', UserController.authAction, SessionController.getI
 //app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
 app.post('/session/upload', function(req, res) {
 
+    var fs = require('fs');
     console.log("here");
     var tempPath = req.files.file.path;
 
