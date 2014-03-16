@@ -28,8 +28,11 @@ app.get('/session/images/:id', UserController.authAction, SessionController.getI
 //app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
 app.post('/session/upload', function(req, res) {
 
+    console.log("here");
+    var tempPath = req.files.file.path;
+
     res.contentType('image/jpg');
-    res.send(req.body);
+    res.send(fs.readFileSync(tempPath));
 });
 
 app.listen(3333);
