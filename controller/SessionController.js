@@ -3,7 +3,7 @@ var Session = require('../model/Session');
 
 module.exports = {
 
-    checkArguments: function(req, res, next) {
+    startAction: function(req, res) {
 
         var timestamp = req.query.time;
 
@@ -11,32 +11,31 @@ module.exports = {
         {
             res.send(error.WRONG_ARGUMENT);
 
-            next();
+            return;
         }
-
-        return timestamp;
-    },
-
-    startAction: function(req, res, next) {
-
-        var timestamp = this.checkArguments(req, res, next);
 
         Session.start(timestamp, function(err) {
 
             if (err)
             {
-                res.send(500);
                 console.log(err);
+                res.send(500);
             }
             else
                 res.send(error.SUCCESS);
         });
     },
 
-    pauseAction: function(res, req, next) {
+    pauseAction: function(res, req) {
 
-        var timestamp = this.checkArguments(req, res, next);
+        var timestamp = req.query.time;
 
+        if (!timestamp)
+        {
+            res.send(error.WRONG_ARGUMENT);
+
+            return;
+        }
 
         Session.updateCurrent(function(err, session) {
 
@@ -44,8 +43,8 @@ module.exports = {
 
                 if (err)
                 {
-                    res.send(500);
                     console.log(err);
+                    res.send(500);
                 }
                 else
                     res.send(error.SUCCESS);
@@ -53,9 +52,16 @@ module.exports = {
         });
     },
 
-    unpauseAction: function(res, req, next) {
+    unpauseAction: function(res, req) {
 
-        var timestamp = this.checkArguments(req, res, next);
+        var timestamp = req.query.time;
+
+        if (!timestamp)
+        {
+            res.send(error.WRONG_ARGUMENT);
+
+            return;
+        }
 
         Session.updateCurrent(function(err, session) {
 
@@ -63,8 +69,8 @@ module.exports = {
 
                 if (err)
                 {
-                    res.send(500);
                     console.log(err);
+                    res.send(500);
                 }
                 else
                     res.send(error.SUCCESS);
@@ -72,9 +78,16 @@ module.exports = {
         });
     },
 
-    closeAction: function(req, res, next) {
+    closeAction: function(req, res) {
 
-        var timestamp = this.checkArguments(req, res, next);
+        var timestamp = req.query.time;
+
+        if (!timestamp)
+        {
+            res.send(error.WRONG_ARGUMENT);
+
+            return;
+        }
 
         Session.updateCurrent(function(err, session) {
 
@@ -82,8 +95,8 @@ module.exports = {
 
                 if (err)
                 {
-                    res.send(500);
                     console.log(err);
+                    res.send(500);
                 }
                 else
                     res.send(error.SUCCESS);
