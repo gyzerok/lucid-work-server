@@ -16,5 +16,9 @@ module.exports = {
     USER_EXISTS: {
         error: 4,
         text: "User with this name already exits"
+    },
+    IMAGE_UPLOAD_FAILED: {
+        error: 5,
+        text: "Image upload failed"
     }
 }

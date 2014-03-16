@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 
 var imageSchema = Schema({
     session_id: Schema.Types.ObjectId,
-    //binary: Schema.Types.Buffer,
-    timestamp: Schema.Types.Date
+    data: Buffer,
+    contentType: String
 });
 
 module.exports = mongoose.model('Image', imageSchema);

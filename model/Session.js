@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
-//var Image = require('./Image');
+var Image = require('./Image');
 
-var sessionSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var sessionSchema = Schema({
+    user_id: Schema.Types.ObjectId,
     startTime: Date,
     endTime: Date,
     pauses: [{
@@ -25,6 +28,7 @@ sessionSchema.methods.unpause = function(timestamp, callback) {
 }
 
 sessionSchema.methods.close = function(timestamp, callback) {
+
     this.endTime = timestamp;
 
     this.save(function(err, session) {
@@ -32,21 +36,17 @@ sessionSchema.methods.close = function(timestamp, callback) {
     });
 }
 
-sessionSchema.methods.addImage = function(binary, timestamp, callback) {
+sessionSchema.methods.addImage = function(data, contentType, callback) {
 
-    var image = new Image({session_id: this._id, binary: binary, timestamp: timestamp});
-    image.save(function(err, image) {
-        callback(err, image);
+    var image = new Image({
+        session_id: this._id,
+        data: data,
+        contentType: contentType
     });
-}
 
-sessionSchema.statics.start = function(timestamp, callback) {
+    image.save(function(err) {
 
-    var Session = mongoose.model('Session', sessionSchema);
-
-    var session = new Session({startTime: timestamp});
-    session.save(function(err, session) {
-        callback(err, session);
+        callback(err);
     });
 }
 

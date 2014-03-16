@@ -18,7 +18,7 @@ function generateToken() {
 }
 
 var userSchema = mongoose.Schema({
-    username: String,
+    email: String,
     password: String,
     token: {
         code: String,
@@ -29,9 +29,10 @@ var userSchema = mongoose.Schema({
 
 userSchema.methods.addSession = function(timestamp, callback) {
 
-    var session = new Session({startTime: timastamp});
-    session.save(function(err, session) {
-        callback(err, session);
+    var session = new Session({startTime: timestamp, user_id: this._id});
+
+    session.save(function(err) {
+        callback(err);
     });
 }
 
@@ -55,7 +56,7 @@ userSchema.methods.getToken = function(callback) {
     });
 }
 
-userSchema.methods.updateCurrentSession = function(callback) {
+userSchema.methods.getCurrentSession = function(callback) {
 
     Session.findOne({user_id: this._id}).sort({_id: -1}).exec(function(err, session) {
 
@@ -63,16 +64,24 @@ userSchema.methods.updateCurrentSession = function(callback) {
     });
 }
 
-userSchema.statics.create = function(username, password, callback) {
+userSchema.methods.getSessions = function(callback) {
+
+    Session.find({user_id: this._id}, '_id, startTime, endTime', function(err, sessions) {
+
+        callback(err, sessions);
+    });
+}
+
+userSchema.statics.create = function(email, password, callback) {
 
     var User = mongoose.model('User', userSchema);
 
-    this.findOne({username: username}, function(err, user) {
+    this.findOne({email: email}, function(err, user) {
 
         if (!user) {
 
             var newUser = new User({
-                username: username,
+                email: email,
                 password: password,
                 token: generateToken(),
                 regitered_at: Date.now()
