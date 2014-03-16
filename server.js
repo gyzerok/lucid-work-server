@@ -25,6 +25,11 @@ app.get('/session/unpause', UserController.authAction, SessionController.unpause
 app.get('/session/close', UserController.authAction, SessionController.closeAction);
 app.get('/session/all', UserController.authAction, SessionController.getAllAction);
 app.get('/session/images/:id', UserController.authAction, SessionController.getImageAction);
-app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
+//app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
+app.post('/session/upload', function(req, res) {
+
+    res.contentType('image/jpg');
+    res.send(req.body);
+});
 
 app.listen(3333);
