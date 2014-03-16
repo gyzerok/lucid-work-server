@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-//var Image = require('./Image');
+var Image = require('./Image');
 
 var Schema = mongoose.Schema;
 
@@ -28,6 +28,7 @@ sessionSchema.methods.unpause = function(timestamp, callback) {
 }
 
 sessionSchema.methods.close = function(timestamp, callback) {
+
     this.endTime = timestamp;
 
     this.save(function(err, session) {
@@ -44,6 +45,7 @@ sessionSchema.methods.addImage = function(data, contentType, callback) {
     });
 
     image.save(function(err, image) {
+
         callback(err, image);
     });
 }
