@@ -14,8 +14,7 @@ module.exports = {
 
                 if (err)
                 {
-                    console.log(err);
-                    res.send(500);
+                    res.send(400, err);
                 }
                 else
                     res.send({id: user._id, username: user.username});
@@ -54,11 +53,17 @@ module.exports = {
         var password = req.query.password;
 
         if (username && password) {
-            User.findOne({username: username, password: password}, function(user) {
+            User.findOne({username: username, password: password}, function(err, user) {
 
                 if (user) {
 
-                    res.send({id: user._id, token: user.token});
+                    res.send({
+                        id: user._id,
+                        token: {
+                            code: user.token.code,
+                            expires_in: user.token.expiresIn.getTime()
+                        }
+                    });
                 }
                 else {
                     res.send(404, error.USER_NOT_FOUND);
