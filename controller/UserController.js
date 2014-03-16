@@ -52,7 +52,7 @@ module.exports = {
         var email = req.query.email;
         var password = req.query.password;
 
-        if (username && password) {
+        if (email && password) {
             User.findOne({email: email, password: password}, function(err, user) {
 
                 if (user) {
