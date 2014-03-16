@@ -26,14 +26,5 @@ app.get('/session/close', UserController.authAction, SessionController.closeActi
 app.get('/session/all', UserController.authAction, SessionController.getAllAction);
 app.get('/session/images/:id', UserController.authAction, SessionController.getImageAction);
 app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
-/*app.post('/session/upload', function(req, res) {
-
-    var fs = require('fs');
-    console.log("here");
-    var tempPath = req.files.file.path;
-
-    res.contentType('image/jpg');
-    res.send(fs.readFileSync(tempPath));
-});*/
 
 app.listen(3333);

@@ -44,9 +44,9 @@ sessionSchema.methods.addImage = function(data, contentType, callback) {
         contentType: contentType
     });
 
-    image.save(function(err, image) {
+    image.save(function(err) {
 
-        callback(err, image);
+        callback(err);
     });
 }
 

@@ -144,10 +144,9 @@ module.exports = {
 
     uploadAction: function(req, res) {
 
-        console.log("ebal rot");
         var tempPath = req.files.file.path;
 
-        if (path.extname(req.files.file.name).toLowerCase() === 'jpg') {
+        if (path.extname(req.files.file.name).toLowerCase() == '.jpg') {
 
             req.currentUser.getCurrentSession(function (err, session) {
 
@@ -158,26 +157,29 @@ module.exports = {
                 }
                 else
                 {
-                    console.log('add');
-                    session.addImage(fs.readFileSync(tempPath), 'image/jpg', function(err, image) {
+                    session.addImage(fs.readFileSync(tempPath), 'image/jpg', function(err) {
 
-                        if (image)
+                        if (err)
                         {
-                            console.log('added');
+                            res.send(500, error.IMAGE_UPLOAD_FAILED);
+                        }
+                        else
+                        {
                             fs.unlink(tempPath);
 
                             res.send(error.SUCCESS);
                         }
-                        else res.send(500, error.IMAGE_UPLOAD_FAILED);
                     });
                 }
             });
         }
+        else
+            res.send(500, error.IMAGE_UPLOAD_FAILED);
     },
 
     getImageAction: function(req, res) {
 
-        var image_id = req.param.get('id');
+        var image_id = req.params.id;
 
         if (image_id)
         {
