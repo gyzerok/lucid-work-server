@@ -52,11 +52,12 @@ module.exports = {
         var email = req.query.email;
         var password = req.query.password;
 
-        if (email && password) {
+        if (email && password)
+        {
             User.findOne({email: email, password: password}, function(err, user) {
 
-                if (user) {
-
+                if (user)
+                {
                     res.send({
                         _id: user._id,
                         token: {
@@ -65,9 +66,8 @@ module.exports = {
                         }
                     });
                 }
-                else {
+                else
                     res.send(404, error.USER_NOT_FOUND);
-                }
             })
         }
     }
