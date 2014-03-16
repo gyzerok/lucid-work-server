@@ -50,14 +50,5 @@ sessionSchema.statics.start = function(timestamp, callback) {
     });
 }
 
-sessionSchema.statics.updateCurrent = function(callback) {
-
-    var Session = mongoose.model('Session', sessionSchema);
-
-    Session.findOne({}, function(err, session) {
-        callback(err, session);
-    });
-}
-
 module.exports = mongoose.model('Session', sessionSchema);
 
