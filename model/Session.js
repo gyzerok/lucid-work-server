@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 //var Image = require('./Image');
 
-var sessionSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var sessionSchema = Schema({
+    user_id: Schema.Types.ObjectId,
     startTime: Date,
     endTime: Date,
     pauses: [{

@@ -29,9 +29,10 @@ var userSchema = mongoose.Schema({
 
 userSchema.methods.addSession = function(timestamp, callback) {
 
-    var session = new Session({startTime: timastamp});
-    session.save(function(err, session) {
-        callback(err, session);
+    var session = new Session({startTime: timastamp, user_id: this._id});
+
+    session.save(function(err) {
+        callback(err);
     });
 }
 

@@ -17,7 +17,8 @@ module.exports = {
             return;
         }
 
-        Session.start(timestamp, function(err) {
+        var user = req.currentUser;
+        user.addSession(timestamp, function(err) {
 
             if (err)
             {
