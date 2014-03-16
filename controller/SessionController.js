@@ -144,7 +144,7 @@ module.exports = {
 
     uploadAction: function(req, res) {
 
-        console.log(req.body);
+        console.log("ebal rot");
         var tempPath = req.files.file.path;
 
         if (path.extname(req.files.file.name).toLowerCase() === 'jpg') {
