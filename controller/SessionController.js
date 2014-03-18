@@ -146,7 +146,8 @@ module.exports = {
 
         var tempPath = req.files.file.path;
 
-        if (path.extname(req.files.file.name).toLowerCase() == '.jpg') {
+        var ext = path.extname(req.files.file.name).toLowerCase()
+        if (ext == '.jpg' || ext == '.bmp') {
 
             req.currentUser.getCurrentSession(function (err, session) {
 
@@ -157,7 +158,7 @@ module.exports = {
                 }
                 else
                 {
-                    session.addImage(fs.readFileSync(tempPath), 'image/jpg', function(err) {
+                    session.addImage(fs.readFileSync(tempPath), 'image/' + ext.substring(1), function(err) {
 
                         if (err)
                         {
