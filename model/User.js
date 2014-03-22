@@ -31,9 +31,7 @@ userSchema.methods.addSession = function(timestamp, callback) {
 
     var session = new Session({startTime: timestamp, user_id: this._id});
 
-    session.save(function(err) {
-        callback(err);
-    });
+    session.save(callback);
 }
 
 userSchema.methods.updateToken = function() {
@@ -58,18 +56,12 @@ userSchema.methods.getToken = function(callback) {
 
 userSchema.methods.getCurrentSession = function(callback) {
 
-    Session.findOne({user_id: this._id}).sort({_id: -1}).exec(function(err, session) {
-
-        callback(err, session);
-    });
+    Session.findOne({user_id: this._id}).sort({_id: -1}).exec(callback);
 }
 
 userSchema.methods.getSessions = function(callback) {
 
-    Session.find({user_id: this._id}, '_id, startTime, endTime', function(err, sessions) {
-
-        callback(err, sessions);
-    });
+    Session.find({user_id: this._id}, '_id, startTime, endTime', callback);
 }
 
 userSchema.statics.create = function(email, password, callback) {

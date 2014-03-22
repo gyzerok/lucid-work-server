@@ -22,18 +22,14 @@ sessionSchema.methods.unpause = function(timestamp, callback) {
     var pause = this.pauses.pop();
 
     pause.endTime = timestamp;
-    pause.save(function(err, pause) {
-        callback(err, pause);
-    });
+    pause.save(callback);
 }
 
 sessionSchema.methods.close = function(timestamp, callback) {
 
     this.endTime = timestamp;
 
-    this.save(function(err, session) {
-        callback(err, session);
-    });
+    this.save(callback);
 }
 
 sessionSchema.methods.addImage = function(data, contentType, callback) {
@@ -44,10 +40,7 @@ sessionSchema.methods.addImage = function(data, contentType, callback) {
         contentType: contentType
     });
 
-    image.save(function(err) {
-
-        callback(err);
-    });
+    image.save(callback);
 }
 
 module.exports = mongoose.model('Session', sessionSchema);
