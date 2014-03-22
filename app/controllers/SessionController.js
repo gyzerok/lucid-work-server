@@ -148,7 +148,7 @@ module.exports = {
 
         if (!session_id) res.send(400, errors.WRONG_ARGUMENT);
 
-        Image.find({session_id: this._id}, '_id', function(err, images) {
+        Image.find({session_id: session_id}, '_id', function(err, images) {
 
             if (err) return console.log(err);
 
