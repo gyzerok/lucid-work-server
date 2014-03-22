@@ -21,6 +21,7 @@ module.exports = function(app) {
     app.get('/session/unpause', UserController.authAction, SessionController.unpauseAction);
     app.get('/session/close', UserController.authAction, SessionController.closeAction);
     app.get('/session/all', UserController.authAction, SessionController.getAllAction);
+    app.get('/session/:id/images', UserController.authAction, SessionController.getSessionImages);
     app.get('/session/images/:id', UserController.authAction, SessionController.getImageAction);
     app.post('/session/upload', UserController.authAction, SessionController.uploadAction);
 }

@@ -142,6 +142,20 @@ module.exports = {
         });
     },
 
+    getSessionImages: function(req, res) {
+
+        var session_id = req.params.id;
+
+        if (!session_id) res.send(400, errors.WRONG_ARGUMENT);
+
+        Image.find({session_id: this._id}, '_id', function(err, images) {
+
+            if (err) return console.log(err);
+
+            res.send(200, images);
+        });
+    },
+
     uploadAction: function(req, res) {
 
         var tempPath = req.files.file.path;
